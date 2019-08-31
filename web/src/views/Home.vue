@@ -36,17 +36,51 @@
     </div>
     <!-- end of nav icons -->
 
-    <div class="card bg-white p-3 mt-3">
-      <div class="card-header d-flex">
-        <i class="iconfont icon-cc-menu-circle"></i>
-        <div class="fs-xl flex-1 px-2">新闻资讯</div>
-        <i class="iconfont icon-menu"></i>
-
+    <m-card icon="cc-menu-circle"
+            title="新闻资讯">
+      <div class="nav jc-between">
+        <div class="nav-item active">
+          <div class="nav-link">热门</div>
+        </div>
+        <div class="nav-item">
+          <div class="nav-link">新闻</div>
+        </div>
+        <div class="nav-item">
+          <div class="nav-link">新闻</div>
+        </div>
+        <div class="nav-item">
+          <div class="nav-link">新闻</div>
+        </div>
+        <div class="nav-item">
+          <div class="nav-link">新闻</div>
+        </div>
       </div>
-      <div class="card-body">
-
+      <div class="pt-3">
+        <swiper>
+          <swiper-slide v-for="m in 5"
+                        :key="m">
+            <div class="py-2"
+                 v-for="n in 5"
+                 :key="n">
+              <span>[公告]</span>
+              <span>|</span>
+              <span>8月27日全服不停机更新公告</span>
+              <span>08/26</span>
+            </div>
+          </swiper-slide>
+        </swiper>
       </div>
-    </div>
+    </m-card>
+
+    <m-card icon="cc-menu-circle"
+            title="英雄列表">
+    </m-card>
+    <m-card icon="cc-menu-circle"
+            title="精彩视频">
+    </m-card>
+    <m-card icon="cc-menu-circle"
+            title="图文攻略">
+    </m-card>
   </div>
 </template>
 
