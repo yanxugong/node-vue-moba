@@ -4,7 +4,6 @@
       <i :class="['iconfont', `icon-${icon}`]"></i>
       <div class="fs-xl flex-1 px-2">{{title}}</div>
       <i class="iconfont icon-menu"></i>
-
     </div>
     <div class="card-body pt-3">
       <slot></slot>
