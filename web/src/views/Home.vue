@@ -40,13 +40,13 @@
                  title="新闻资讯"
                  :categories="newsCats">
       <template #items="{category}">
-        <div class="py-2"
+        <div class="py-2 fs-lg d-flex"
              v-for="(news, index) in category.newsList"
              :key="index">
-          <span>[{{news.categoryName}}]</span>
-          <span>|</span>
-          <span>{{news.title}}</span>
-          <span>{{news.date}}</span>
+          <span class="text-info">[{{news.categoryName}}]</span>
+          <span class="px-2">|</span>
+          <span class="flex-1 text-dark-1 text-ellipsis pr-2">{{news.title}}</span>
+          <span class="text-grey-1 fs-sm">{{news.createdAt | date}}</span>
         </div>
       </template>
     </m-list-card>
@@ -64,7 +64,14 @@
 </template>
 
 <script>
+import dayjs from 'dayjs'
+
 export default {
+  filters: {
+    date (value) {
+      return dayjs(value).format('MM/DD')
+    }
+  },
   data () {
     return {
       swiperOption: {
@@ -72,48 +79,16 @@ export default {
           el: '.pagination-home'
         }
       },
-      newsCats: [
-        {
-          name: '热门',
-          newsList: new Array(5).fill(1).map(v => ({
-            categoryName: '公告',
-            title: '8月27日全服不停机更新公告',
-            date: '08/26'
-          }))
-        },
-        {
-          name: '新闻',
-          newsList: new Array(5).fill(1).map(v => ({
-            categoryName: '公告',
-            title: '8月27日全服不停机更新公告',
-            date: '08/26'
-          }))
-        },
-        {
-          name: '公告',
-          newsList: new Array(5).fill(1).map(v => ({
-            categoryName: '公告',
-            title: '8月27日全服不停机更新公告',
-            date: '08/26'
-          }))
-        },
-        {
-          name: '活动',
-          newsList: new Array(5).fill(1).map(v => ({
-            categoryName: '公告',
-            title: '8月27日全服不停机更新公告',
-            date: '08/26'
-          }))
-        },
-        {
-          name: '赛事',
-          newsList: new Array(5).fill(1).map(v => ({
-            categoryName: '公告',
-            title: '8月27日全服不停机更新公告',
-            date: '08/26'
-          }))
-        }
-      ]
+      newsCats: []
+    }
+  },
+  created () {
+    this.fetchNewsCats()
+  },
+  methods: {
+    async fetchNewsCats () {
+      const res = await this.$http.get('news/list')
+      this.newsCats = res.data
     }
   },
 }
