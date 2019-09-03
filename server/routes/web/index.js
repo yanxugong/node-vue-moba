@@ -52,19 +52,19 @@ module.exports = app => {
 
   // 新闻列表接口
   router.get('/news/list', async (req, res) => {
-    // const parent = await Category.findOne({
-    //   name: '新闻分类'
-    // })
-    //   .populate({
-    //     path: 'children',
-    //     populate: {
-    //       path: 'newsList'
-    //     }
-    //   })
-    //   .lean()
     const parent = await Category.findOne({
       name: '新闻分类'
     })
+          // const parent = await Category.findOne({
+          //   name: '新闻分类'
+          // })
+          //   .populate({
+          //     path: 'children',
+          //     populate: {
+          //       path: 'newsList'
+          //     }
+          //   })
+          //   .lean()
     const cats = await Category.aggregate([
       { $match: { parent: parent._id } },
       {
