@@ -153,6 +153,39 @@
             </el-col>
           </el-row>
         </el-tab-pane>
+        <el-tab-pane label="最佳搭档"
+                     name="partners">
+          <el-button size="small"
+                     @click="model.partners.push({})">
+            <i class="el-icon-plus"></i>
+            添加英雄
+          </el-button>
+          <el-row type="flex"
+                  style="flex-wrap:wrap;">
+            <el-col :md="12"
+                    v-for="(item, index) in model.partners"
+                    :key="index">
+              <el-form-item label="英雄">
+                <el-select filterable
+                           v-model="item.hero">
+                  <el-option v-for="hero in heroes"
+                             :key="hero._id"
+                             :value="hero._id"
+                             :label="hero.name"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="描述">
+                <el-input v-model="item.description"
+                          type="textarea"></el-input>
+              </el-form-item>
+              <el-form-item>
+                <el-button size="small"
+                           type="danger"
+                           @click="model.partners.splice(index, 1)">删除</el-button>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-tab-pane>
       </el-tabs>
       <el-form-item style="margin-top:1rem;">
         <el-button type="primary"
@@ -174,9 +207,12 @@ export default {
     return {
       categories: [],
       items: [],
+      heroes: [],
       model: {
         name: '',
         avatar: '',
+        skills: [],
+        partners: [],
         scores: {
           difficult: 0,
           attack: 0,
@@ -190,6 +226,7 @@ export default {
   created () {
     this.fetchItems()
     this.fetchCategories()
+    this.fetchHeroes()
     this.id && this.fetch()
   },
   methods: {
@@ -217,6 +254,10 @@ export default {
     async fetchItems () {
       const res = await this.$http.get(`rest/items`)
       this.items = res.data
+    },
+    async fetchHeroes () {
+      const res = await this.$http.get(`rest/heroes`)
+      this.heroes = res.data
     }
   },
 }
