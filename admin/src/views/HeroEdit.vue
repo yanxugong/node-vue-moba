@@ -3,7 +3,7 @@
     <h1>{{id ? '编辑' : '新建'}}英雄 </h1>
     <el-form label-width="120px"
              @submit.native.prevent="save">
-      <el-tabs value="skills"
+      <el-tabs value="basic"
                type="border-card">
         <el-tab-pane label="基础信息"
                      name="basic">
@@ -18,9 +18,22 @@
                        :action="uploadUrl"
                        :headers="getAuthHeaders()"
                        :show-file-list="false"
-                       :on-success="afterUpload">
+                       :on-success="res => $set(model, 'avatar', res.url)">
               <img v-if="model.avatar"
                    :src="model.avatar"
+                   class="avatar">
+              <i v-else
+                 class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+          </el-form-item>
+          <el-form-item label="Banner">
+            <el-upload class="avatar-uploader"
+                       :action="uploadUrl"
+                       :headers="getAuthHeaders()"
+                       :show-file-list="false"
+                       :on-success="res => $set(model, 'banner', res.url)">
+              <img v-if="model.banner"
+                   :src="model.banner"
                    class="avatar">
               <i v-else
                  class="el-icon-plus avatar-uploader-icon"></i>
@@ -118,6 +131,12 @@
                      class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload>
               </el-form-item>
+              <el-form-item label="冷却值">
+                <el-input v-model="item.delay"></el-input>
+              </el-form-item>
+              <el-form-item label="消耗">
+                <el-input v-model="item.cost"></el-input>
+              </el-form-item>
               <el-form-item label="描述">
                 <el-input v-model="item.description"
                           type="textarea"></el-input>
@@ -174,9 +193,6 @@ export default {
     this.id && this.fetch()
   },
   methods: {
-    afterUpload (res) {
-      this.model.avatar = res.url
-    },
     async save () {
       let res
       if (this.id) {
